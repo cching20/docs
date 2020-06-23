@@ -4,6 +4,7 @@
 :owncloud-server-changelog-url: https://owncloud.org/changelog/server/
 :page-aliases: whats_new_admin.adoc
 
+* xref:changes-in-10-5-0[Changes in 10.5.0]
 * xref:changes-in-10-4-1[Changes in 10.4.1]
 * xref:changes-in-10-4-0[Changes in 10.4.0]
 * xref:changes-in-10-3-2[Changes in 10.3.2]
@@ -29,6 +30,129 @@
 * xref:changes-in-8-1[Changes in 8.1]
 * xref:changes-in-8-0[Changes in 8.0]
 * xref:changes-in-7-0[Changes in 7.0]
+
+== Changes in 10.5.0
+
+Dear ownCloud administrator, please find below the changes and known issues in ownCloud Server 10.5 that need your attention.
+You can also read {owncloud-changelog-url}[the full ownCloud Server changelog] for further details on what has changed.
+
+=== Migrations
+
+- To improve the performance of addressbook search queries (e.g., when looking for federated users to share with), a 
+https://github.com/owncloud/core/pull/37152[migration step] adds indices for the columns `addressbookid`, `name` and `value` on the `oc_cards_properties` table. The impact on upgrade duration can be high depending on the number of rows of the mentioned columns.
+- To prepare for the new background job for change detection in federated shares (xref:release_notes.html#new-background-job-for-change-detection-in-federated-shares[see below]), a https://github.com/owncloud/core/pull/37391[migration step] adds a new column (`lastscan`) to the `oc_share_external` table. The impact on upgrade duration depends on the number of rows in `oc_share_external`.
+- To enable storing complex WebDAV properties, a https://github.com/owncloud/core/pull/37314[migration step] adds a new column (`propertytype`) to the `oc_properties` and `oc_dav_properties` tables. The impact on upgrade duration depends on the number of rows in `oc_properties` and `oc_dav_properties`.
+- To facilitate the transition to the new licensing mechanism (xref:release_notes.html#changes-in-delivery[see below]) a https://github.com/owncloud/core/pull/37512[migration step] will disable the `enterprise_key` app during the upgrade. This step does not have an impact on upgrade duration.
+
+=== PHP 7.1 Support Discontinued
+
+As xref:release_notes.html#php-71-deprecation-note[announced], in the previous minor release of ownCloud Server, from version 10.5 onward, ownCloud Server **no longer supports PHP 7.1**. 
+If you're running on PHP 7.1 or below, it is necessary to upgrade PHP **prior** to conducting the upgrade to Server 10.5. 
+See the xref:installation/system_requirements.adoc[system requirements] for more information.
+
+NOTE: If you're using the official Docker containers or the Univention appliance, this has been taken care of already.
+
+=== Official PHP 7.4 Support
+
+ownCloud Server 10.5 officially supports PHP 7.4. 
+The Server Core and all apps maintained by ownCloud have received a full QA cycle and are proven to work reliably with PHP 7.4.
+If you are still running a PHP version < 7.2, you must upgrade PHP before upgrading ownCloud Server as lower versions are not supported anymore.
+
+Summarizing, ownCloud Server 10.5 supports the PHP versions **7.2, 7.3 and 7.4**.
+
+TIP: See the xref:installation/system_requirements.adoc#officially-recommended-supported-options[system requirements in the ownCloud Documentation] for more information.
+
+NOTE: The official ownCloud Docker containers have been updated to Ubuntu 20.04 and are using PHP 7.4. 
+
+=== File Locking in the Web Interface
+
+ownCloud Server 10.5 comes with great enhancements for content collaboration. Manual file locking allows users to lock files in shared areas while working on them in order to prevent concurrent changes from other users (check-in/check-out). 
+
+The feature builds on the xref:release_notes.html#webdav-locks[WebDAV Locks backend] which has been introduced with Server 10.1 and is now available in the ownCloud Web Interface. Using the context menu of files, every user who has access can lock them. Users can recognize locked files by the means of a new lock indicator. While a file is locked, other users can still access it but they can not make any changes. Locked files can manually be unlocked by the lock owner (the user who locked the file; exclusive locking) using the "Locks" tab in the file details view (right sidebar).
+
+To prevent files being locked infinitely, there is a mechanism that automatically expires locks after a certain time. The expiration time of locks can be configured via the "Manual File Locking" section in the _Admin -> Additional_ settings or using _occ_ commands:
+
+- _Default timeout for the locks if not specified (in seconds)_: Maximum lifetime of a lock set **via the web interface** (or by not specifying a timeout value when calling the WebDAV Locks API)
+`occ config:app:set files lock_timeout_default --value 1800`
+
+- _Maximum timeout for the locks (in seconds)_: Maximum lifetime of locks which is allowed to be set by calling the WebDAV Locks API
+`occ config:app:set files lock_timeout_max --value 86400`
+
+By default locks set in the web interface will expire after 30 minutes. The maximum lock time by default is one day.
+
+TIP: Please change the lock expiration settings according to your needs. Usually you will only need to change the default timeout as that applies to locks set in the web interface.
+
+TIP: The user-facing components in the web interface are disabled by default. Administrators can enable the feature by executing the following _occ_ command: `occ config:app:set files enable_lock_file_action --value true`
+
+=== Changes to the ownCloud Marketplace
+
+The ownCloud Marketplace is opening up. With the release of Server 10.5, all apps available on the Marketplace (including ownCloud Enterprise apps) are available for download and installation via the Market app, respectively. This change facilitates the process of getting started with ownCloud Server and of evaluating Enterprise functionality a lot. Additionally, it allows to obtain updates for all apps from the ownCloud Marketplace and ensures running up-to-date versions of the extensions thereby.
+
+=== Changes in Delivery
+
+In line with the changes to the Marketplace the deliverables for ownCloud Server have been unified. Previously there were different Tarball bundles, Docker images and Linux packages for the Community (bare minimum) and Enterprise (all supported apps) Editions.
+Starting with Server 10.5 there are the following bundles which are shipped via Tarball, Docker images and Linux packages:
+- minimal bundle for the Server and required components, semantically versioned (`ownCloud-10.5.0`)
+- complete bundle for the Server and all supported apps, including the Enterprise features, not semantically versioned as it always contains the latest versions of all supported apps (`ownCloud-complete-<date>`)
+
+The availability of Enterprise features eventually only depends on the license key.
+As part of this process, the former `enterprise_key` app has been deprecated and is not shipped anymore. New  versions for all Enterprise apps have been released and included in the Server 10.5 complete bundle which are needed to work with PHP 7.4 and the new licensing mechanism (see below).
+
+TIP: **When upgrading to Server 10.5 it is mandatory to upgrade all apps to the latest versions as well to ensure compatibility with the supported PHP versions and the new licensing mechanism. Using the Server 10.5 complete bundle for upgrading you will get the latest versions of all apps.**
+
+TIP: It is mandatory to disable the deprecated `enterprise_key` app when upgrading. A migration step will conduct this automatically during the upgrade procedure.
+
+TIP: Practically, for existing installations the change does not make a big difference. Community installations will get all supported Community and Enterprise apps in addition but they will be disabled. For Enterprise installations the bundles stay equal. After upgrading it is recommended to check whether the desired apps are enabled/disabled.
+
+=== New Enterprise Trial Mechanism
+
+To facilitate the evaluation of ownCloud Enterprise functionality, Server 10.5 comes with a new trial mechanism. Previously, the process to upgrade from a Community installation to an Enterprise trial was not that easy.
+
+With Server 10.5 this process has been changed and made a lot easier: Along with the changes to the Marketplace and in delivery, Enterprise functionality is basically available in every installation after upgrading or installing, respectively. The apps can be enabled like other apps which will start a 24-hour grace period if no valid license key is present. During this time the functionality can fully be used, even without a valid license key. To extend the period to 30 days, a demo license key can be obtained from a https://owncloud.com/try-enterprise/[new landing page]. The administrator will be informed and guided to obtain the demo license and can enter it in the web interface. If desired, the location of the landing page can be customized using the _config.php_ option `'grace_period.demo_key.link' => 'https://owncloud.com/try-enterprise/'`.
+
+=== New Admin UI to Supply License Keys
+
+As mentioned above, Server 10.5 adds new UI elements to set license keys in the _Admin -> General_ settings. Keys added this way will be stored in the database, not in _config.php_ as before. Still, there is legacy support taking into account when keys have been stored in _config.php_ or _license.config.php_.
+
+=== New Background Job for Change Detection in Federated Shares
+
+With ownCloud Server 10.2.1 a https://doc.owncloud.com/server/admin_manual/release_notes.html#background-job-for-change-detection-of-nested-federated-shares[background job for change detection of nested federated shares] has been added (`occ incoming-shares:poll`) to allow ownCloud Server to discover changes in federated shares in order to make them available for synchronization with the ownCloud Clients. Based on feedback a new, improved background job with more configuration options was added to Server 10.5. It replaces the former occ command which is now **deprecated** and should not be used anymore after upgrading to 10.5.
+
+In addition to discovering changes ("check"), the new background job also synchronizes meta data changes between involved servers ("scan") making them available without requiring users to actively browse them. 
+
+The new background job provides some configuration options to optimize its performance, especially for larger environments:
+- Minimum amount of hours since the last login of a user for that a scan is triggered (limits the execution of discovery & meta data sync to active users which have logged in during the configured time frame) (default: 24h)
+
+`occ config:app:set files_sharing cronjob_scan_external_min_login --value <integer-seconds>`
+  
+- Minimum amount of hours since the last scan of a federated share for the next scan to be triggered (avoids frequently scanning the same federated share when it is in active use) (default: 3h)
+
+`occ config:app:set files_sharing cronjob_scan_external_min_scan --value <integer-seconds>`
+
+- Maximum amount of federated shares scanned per execution (scan is only performed if changes in federated shares are discovered) (default: 100)
+
+`occ config:app:set files_sharing cronjob_scan_external_batch --value <integer-number>`
+
+The new background job is disabled by default and can be enabled/disabled in the _Admin -> Sharing_ settings (_Periodically synchronize outdated federated shares for active users_) or using `occ config:app:set files_sharing cronjob_scan_external_enabled --value yes`. If enabled, it will be executed as part of the regular ownCloud background job queue and does not need to be added to crontab therefore.
+
+TIP: If your instance provides federated sharing, activate the new background job as explained above.
+TIP: Remove the `occ incoming-shares:poll` command from crontab if you have set it.
+
+=== Other Notable Changes
+
+- The "Add to your ownCloud" feature on public link pages is now hidden if an instance has outgoing federated shares disabled (specifically, if _Allow users on this server to send shares to other servers_ is disabled in Admin -> Sharing settings) https://github.com/owncloud/core/pull/37232[#37232]
+- Improvements for Oracle DB support https://github.com/owncloud/core/pull/37314[#37314]
+- Folder download (as ZIP/TAR archive) now preserves the modification times of the contained files https://github.com/owncloud/core/pull/37222[#37222]
+- Users with certain special names (UIDs) reserved by the system can't be created anymore https://github.com/owncloud/core/pull/37268[#37268]
+- Performance improvements for SMB external storages https://github.com/owncloud/core/pull/37451[#37451]
+
+=== Solved Known Issues
+
+- The xref:release_notes.html#sharing-with-numeric-uids[known issue] around sharing with numeric UIDs in 10.4.0 and 10.4.1 has been fixed. https://github.com/owncloud/core/pull/37336[#37336]
+
+=== Known issues
+
+Currently there are no known issues with ownCloud Server 10.5.0. This section will be updated when issues are discovered.
 
 == Changes in 10.4.1
 
