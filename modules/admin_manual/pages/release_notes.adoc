@@ -145,6 +145,7 @@ TIP: Remove the `occ incoming-shares:poll` command from crontab if you have set 
 - Folder download (as ZIP/TAR archive) now preserves the modification times of the contained files https://github.com/owncloud/core/pull/37222[#37222]
 - Users with certain special names (UIDs) reserved by the system can't be created anymore https://github.com/owncloud/core/pull/37268[#37268]
 - Performance improvements for SMB external storages https://github.com/owncloud/core/pull/37451[#37451]
+- Strict LDAP login only using LDAP user name and password (instead of e.g., email and password) can now be enforced using `occ config:system:set --type boolean --value true strict_login_enforced` https://github.com/owncloud/core/pull/37569[#37569]
 
 === Solved Known Issues
 
