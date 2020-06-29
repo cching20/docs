@@ -100,7 +100,7 @@ As part of this process, the former `enterprise_key` app has been deprecated and
 
 TIP: **When upgrading to Server 10.5 it is mandatory to upgrade all apps to the latest versions as well to ensure compatibility with the supported PHP versions and the new licensing mechanism. Using the Server 10.5 complete bundle for upgrading you will get the latest versions of all apps.**
 
-TIP: It is mandatory to disable the deprecated `enterprise_key` app when upgrading. A migration step will conduct this automatically during the upgrade procedure.
+TIP: It is mandatory to disable the deprecated `enterprise_key` app when upgrading. A migration step will do this automatically during the upgrade procedure.
 
 TIP: Practically, for existing installations the change does not make a big difference. Community installations will get all supported Community and Enterprise apps in addition but they will be disabled. For Enterprise installations the bundles stay equal. After upgrading it is recommended to check whether the desired apps are enabled/disabled.
 
