@@ -96,7 +96,7 @@ Starting with Server 10.5 there are the following bundles which are shipped via 
 - complete bundle for the Server and all supported apps, including the Enterprise features, not semantically versioned as it always contains the latest versions of all supported apps (`ownCloud-complete-<date>`)
 
 The availability of Enterprise features eventually only depends on the license key.
-As part of this process, the former `enterprise_key` app has been deprecated and is not shipped anymore. New  versions for all Enterprise apps have been released and included in the Server 10.5 complete bundle which are needed to work with PHP 7.4 and the new licensing mechanism (see below).
+As part of this process, the former `enterprise_key` app has been deprecated and is not shipped anymore. New versions for all Enterprise apps have been released and included in the Server 10.5 complete bundle. These are needed to work with PHP 7.4 and the new licensing mechanism (see below).
 
 TIP: **When upgrading to Server 10.5 it is mandatory to upgrade all apps to the latest versions as well to ensure compatibility with the supported PHP versions and the new licensing mechanism. Using the Server 10.5 complete bundle for upgrading you will get the latest versions of all apps.**
 
