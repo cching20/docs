@@ -116,7 +116,7 @@ As mentioned above, Server 10.5 adds new UI elements to set license keys in the 
 
 === New Background Job for Change Detection in Federated Shares
 
-With ownCloud Server 10.2.1 a https://doc.owncloud.com/server/admin_manual/release_notes.html#background-job-for-change-detection-of-nested-federated-shares[background job for change detection of nested federated shares] has been added (`occ incoming-shares:poll`) to allow ownCloud Server to discover changes in federated shares in order to make them available for synchronization with the ownCloud Clients. Based on feedback a new, improved background job with more configuration options was added to Server 10.5. It replaces the former occ command which is now **deprecated** and should not be used anymore after upgrading to 10.5.
+With ownCloud Server 10.2.1 a https://doc.owncloud.com/server/admin_manual/release_notes.html#background-job-for-change-detection-of-nested-federated-shares[background job for change detection of nested federated shares] was added (`occ incoming-shares:poll`) to allow ownCloud Server to discover changes in federated shares in order to make them available for synchronization with the ownCloud Clients. Based on feedback a new, improved background job with more configuration options was added to Server 10.5. It replaces the former occ command which is now **deprecated** and should not be used anymore after upgrading to 10.5.
 
 In addition to discovering changes ("check"), the new background job also synchronizes meta data changes between involved servers ("scan") making them available without requiring users to actively browse them. 
 
