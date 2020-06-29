@@ -86,7 +86,7 @@ TIP: The user-facing components in the web interface are disabled by default. Ad
 
 === Changes to the ownCloud Marketplace
 
-The ownCloud Marketplace is opening up. With the release of Server 10.5, all apps available on the Marketplace (including ownCloud Enterprise apps) are available for download and installation via the Market app, respectively. This change facilitates the process of getting started with ownCloud Server and of evaluating Enterprise functionality a lot. Additionally, it allows to obtain updates for all apps from the ownCloud Marketplace and ensures running up-to-date versions of the extensions thereby.
+The ownCloud Marketplace is opening up. With the release of Server 10.5, all apps available on the Marketplace (including ownCloud Enterprise apps) are available for download and installation via the Market app, respectively. This change facilitates the process of getting started with ownCloud Server and of evaluating Enterprise functionality. Additionally, it allows updates for all apps to be obtained from the ownCloud Marketplace and ensures running up-to-date versions of the extensions.
 
 === Changes in Delivery
 
