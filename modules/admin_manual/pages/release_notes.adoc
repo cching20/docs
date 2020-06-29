@@ -121,7 +121,7 @@ With ownCloud Server 10.2.1 a https://doc.owncloud.com/server/admin_manual/relea
 In addition to discovering changes ("check"), the new background job also synchronizes meta data changes between involved servers ("scan") making them available without requiring users to actively browse them. 
 
 The new background job provides some configuration options to optimize its performance, especially for larger environments:
-- Minimum amount of hours since the last login of a user for that a scan is triggered (limits the execution of discovery & meta data sync to active users which have logged in during the configured time frame) (default: 24h)
+- Minimum amount of hours since the last login of a user that a scan is triggered (limits the execution of discovery & meta data sync to active users which have logged in during the configured time frame) (default: 24h)
 
 `occ config:app:set files_sharing cronjob_scan_external_min_login --value <integer-seconds>`
   
