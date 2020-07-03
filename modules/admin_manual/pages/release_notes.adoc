@@ -73,7 +73,7 @@ The feature builds on the xref:release_notes.html#webdav-locks[WebDAV Locks back
 To prevent files being locked infinitely, there is a mechanism that automatically expires locks after a certain time. The expiration time of locks can be configured via the "Manual File Locking" section in the _Admin -> Additional_ settings or using _occ_ commands:
 
 - _Default timeout for the locks if not specified (in seconds)_: Maximum lifetime of a lock set **via the web interface** (or by not specifying a timeout value when calling the WebDAV Locks API)
-`occ config:app:set files lock_timeout_default --value 1800`
+`occ config:app:set core lock_timeout_default --value 1800`
 
 - _Maximum timeout for the locks (in seconds)_: Maximum lifetime of locks which is allowed to be set by calling the WebDAV Locks API
 `occ config:app:set files lock_timeout_max --value 86400`
