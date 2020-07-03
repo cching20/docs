@@ -76,7 +76,7 @@ To prevent files being locked infinitely, there is a mechanism that automaticall
 `occ config:app:set core lock_timeout_default --value 1800`
 
 - _Maximum timeout for the locks (in seconds)_: Maximum lifetime of locks which is allowed to be set by calling the WebDAV Locks API
-`occ config:app:set files lock_timeout_max --value 86400`
+`occ config:app:set core lock_timeout_max --value 86400`
 
 By default locks set in the web interface will expire after 30 minutes. The maximum lock time by default is one day.
 
