@@ -133,7 +133,7 @@ The new background job provides some configuration options to optimize its perfo
 
 `occ config:app:set files_sharing cronjob_scan_external_batch --value <integer-number>`
 
-The new background job is disabled by default and can be enabled/disabled in the _Admin -> Sharing_ settings (_Periodically synchronize outdated federated shares for active users_) or using `occ config:app:set files_sharing cronjob_scan_external_enabled --value yes`. If enabled, it will be executed as part of the regular ownCloud background job queue and does not need to be added to crontab therefore.
+The new background job is disabled by default and can be enabled/disabled in the _Admin -> Sharing_ settings (_Periodically synchronize outdated federated shares for active users_) or using `occ config:app:set files_sharing cronjob_scan_external_enabled --value yes`. If enabled, it will be executed as part of the regular ownCloud background job queue and therefore does not need to be added to crontab.
 
 TIP: If your instance provides federated sharing, activate the new background job as explained above.
 TIP: Remove the `occ incoming-shares:poll` command from crontab if you have set it.
