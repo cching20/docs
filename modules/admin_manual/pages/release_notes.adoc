@@ -82,7 +82,7 @@ By default locks set in the web interface will expire after 30 minutes. The maxi
 
 TIP: Please change the lock expiration settings according to your needs. Usually you will only need to change the default timeout as that applies to locks set in the web interface.
 
-TIP: The user-facing components in the web interface are disabled by default. Administrators can enable the feature by executing the following _occ_ command: `occ config:app:set files enable_lock_file_action --value true`
+TIP: The user-facing components in the web interface are disabled by default. Administrators can enable the feature by executing the following _occ_ command: `occ config:app:set files enable_lock_file_action --value yes`
 
 === Changes to the ownCloud Marketplace
 
